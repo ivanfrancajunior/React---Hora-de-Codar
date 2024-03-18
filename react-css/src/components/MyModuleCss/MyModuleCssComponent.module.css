@@ -1,0 +1,13 @@
+.container{
+    padding: 12px;
+    background-color: white;
+    min-width: 150px;
+    min-height: 150px;
+    margin: 10px;
+}
+
+.header {
+    font-family: monospace;
+    font-size: 20px;
+    color:lightcoral;
+}
