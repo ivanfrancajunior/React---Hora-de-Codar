@@ -1,0 +1,54 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Camisa",
+      "price": 59.9
+    },
+    {
+      "id": "2",
+      "name": "Calça vermelha",
+      "price": 90
+    },
+    {
+      "id": "3",
+      "name": "Boné aba reta",
+      "price": 29.9
+    },
+    {
+      "id": "0.10446342186207969",
+      "name": "bala",
+      "price": "1"
+    },
+    {
+      "id": "620648",
+      "name": "Sunglass",
+      "price": "159"
+    },
+    {
+      "id": "301995",
+      "name": "Bermuda",
+      "price": "59.5"
+    },
+    {
+      "id": "197510",
+      "name": "caneta",
+      "price": "2.6"
+    },
+    {
+      "id": 397506,
+      "name": "sunglass",
+      "price": 21.3
+    },
+    {
+      "id": 929248,
+      "name": "laranja",
+      "price": 2
+    },
+    {
+      "id": 197133,
+      "name": "chocolate",
+      "price": 10
+    }
+  ]
+}
