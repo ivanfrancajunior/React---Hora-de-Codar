@@ -2,7 +2,7 @@ import BgImage from "../../assets/images/hero2.jpg";
 import LogoImage from "../../assets/images/logo.png";
 const Hero = () => {
   return (
-    <div
+    <section
       className={`flex flex-col justify-center items-center min-h-[400px] h-[calc(100vh-200px)] bg-cover bg-center bg-fixed bg-no-repeat`}
       style={{ backgroundImage: `url(${BgImage})` }}
     >
@@ -13,7 +13,7 @@ const Hero = () => {
             <div className="w-14 h-14 bg-pink-500 rounded-full flex items-center justify-center gap-1">
               <div className="h-2 w-1 bg-pink-300 rounded-full animate-wavey animation-delay-100"></div>
               <div className="h-3 w-1 bg-pink-200 rounded-full animate-wavey animation-delay-200"></div>
-              <div className="h-4 w-1 bg-pink-100 rounded-full animate-wavey animation-delay-300"></div>
+              <div className="h-4 w-1 bg-pink-100 rounded-full animate-wavey animation-delay-250"></div>
               <div className="h-3 w-1 bg-pink-200 rounded-full animate-wavey animation-delay-200"></div>
               <div className="h-2 w-1 bg-pink-300 rounded-full animate-wavey animation-delay-100"></div>
             </div>
@@ -41,7 +41,7 @@ const Hero = () => {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
