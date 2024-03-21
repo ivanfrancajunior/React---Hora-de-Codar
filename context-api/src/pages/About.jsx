@@ -3,21 +3,32 @@ import { CounterContext } from "../context/CounterContext";
 import { TitleColorContext } from "../context/TitleColorContex";
 
 const About = () => {
-  const { counter, setCounter } = useContext(CounterContext);
+  const { counter, dispatchCounter } = useContext(CounterContext);
   const { titleColor, setTitleColor } = useContext(TitleColorContext);
+  
+  const handleAdd = () => {
+    dispatchCounter({ type: "INCREASE" });
+  }
+  const handleDecrease = () => {
+    dispatchCounter({ type: "DECREASE" });
+  }
+  const handleReset = () => {
+    dispatchCounter({ type: "RESET" });
+  }
+  
   return (
     <div>
       <h1>About Page</h1>
       <div className="flex flex-col items-center justify-center ">
         <h3>Change Context</h3>
         <h4 className="text-4xl" style={{ color: titleColor }}>
-          {counter}
+          {counter.value}
         </h4>
       </div>
       <div className="flex items-center justify-center gap-3">
-        <button onClick={() => setCounter(counter + 1)}>Up</button>
-        <button onClick={() => setCounter(counter - 1)}>Down</button>
-        <button onClick={() => setCounter(0)}>Reset</button>
+        <button onClick={handleAdd}>Up</button>
+        <button onClick={handleDecrease}>Down</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
     </div>
   );

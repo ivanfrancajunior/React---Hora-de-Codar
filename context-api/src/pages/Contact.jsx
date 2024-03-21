@@ -13,7 +13,7 @@ const Contact = () => {
 
       <div className='flex flex-col items-center justify-center text-5xl'>
         
-        <h4>{counter}</h4>
+        <h4>{counter.value}</h4>
       </div>
     </div>
   );
