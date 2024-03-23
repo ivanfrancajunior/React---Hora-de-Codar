@@ -4,6 +4,7 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 import { useAuthValue } from "../../context/AuthContext";
 const Header = () => {
   const { user } = useAuthValue();
+  const { logout } = useAuthentication();
   return (
     <header>
       <nav className={styles.navbar}>
@@ -26,7 +27,7 @@ const Header = () => {
                   to="/login"
                   className={({ isActive }) => (isActive ? styles.active : "")}
                 >
-                  Login
+                  Entrar
                 </NavLink>
               </li>
               <li>
@@ -34,7 +35,7 @@ const Header = () => {
                   to="/register"
                   className={({ isActive }) => (isActive ? styles.active : "")}
                 >
-                  Register
+                  Registrar
                 </NavLink>
               </li>
             </>
@@ -64,9 +65,14 @@ const Header = () => {
               to="/about"
               className={({ isActive }) => (isActive ? styles.active : "")}
             >
-              About
+              Sobre
             </NavLink>
           </li>
+          {user && (
+            <li>
+              <button onClick={logout}>Sair</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
