@@ -2,6 +2,7 @@ import styles from "./CreatePost.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
+import { useInsertDocument } from "../../hooks/useInserDocument";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -11,6 +12,9 @@ const CreatePost = () => {
   const [formError, setFormError] = useState("");
 
   const navigate = useNavigate();
+  const { response, insertDocument } = useInsertDocument('posts');
+  const { user } = useAuthValue();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormError("");
@@ -31,6 +35,15 @@ const CreatePost = () => {
     console.log(tagsArray);
 
     if (formError) return;
+
+    insertDocument({
+      title,
+      image,
+      body,
+      tags: tagsArray,
+      uid: user.uid,
+      createdBy: user.displayName,
+    });
 
     navigate("/");
   };
@@ -82,11 +95,14 @@ const CreatePost = () => {
             value={tags}
           />
         </label>
-        <button className="btn" disabled={false}>
-          Criar Post
+
+        <button disabled={response.loading ? true : false} className="btn">
+          {response.loading ? "Aguarde..." : "Criar"}
         </button>
 
-       
+        {(response.error || formError) && (
+          <p className="error">{response.error || formError}</p>
+        )}
       </form>
     </div>
   );
