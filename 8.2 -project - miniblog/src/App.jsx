@@ -1,17 +1,17 @@
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
-import "./App.css";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import CreatePost from "./pages/CreatePost/CreatePost";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import { AuthContextProvider } from "./context/AuthContext";
-import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuthentication } from "./hooks/useAuthentication";
-import CreatePost from "./pages/CreatePost/CreatePost";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(undefined);
