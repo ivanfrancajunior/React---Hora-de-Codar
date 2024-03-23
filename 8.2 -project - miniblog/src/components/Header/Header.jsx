@@ -1,7 +1,9 @@
 import styles from "./Header.module.css";
 import { NavLink } from "react-router-dom";
-
+import { useAuthentication } from "../../hooks/useAuthentication";
+import { useAuthValue } from "../../context/AuthContext";
 const Header = () => {
+  const { user } = useAuthValue();
   return (
     <header>
       <nav className={styles.navbar}>
@@ -17,28 +19,52 @@ const Header = () => {
               Home
             </NavLink>
           </li>
+          {!user && (
+            <>
+              <li>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) => (isActive ? styles.active : "")}
+                >
+                  Login
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) => (isActive ? styles.active : "")}
+                >
+                  Register
+                </NavLink>
+              </li>
+            </>
+          )}
+          {user && (
+            <>
+              <li>
+                <NavLink
+                  to="/posts/create"
+                  className={({ isActive }) => (isActive ? styles.active : "")}
+                >
+                  Novo Post
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) => (isActive ? styles.active : "")}
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            </>
+          )}
           <li>
             <NavLink
               to="/about"
               className={({ isActive }) => (isActive ? styles.active : "")}
             >
               About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/login"
-              className={({ isActive }) => (isActive ? styles.active : "")}
-            >
-              Login
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/register"
-              className={({ isActive }) => (isActive ? styles.active : "")}
-            >
-              Register
             </NavLink>
           </li>
         </ul>
