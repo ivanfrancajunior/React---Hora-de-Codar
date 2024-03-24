@@ -29,7 +29,7 @@ function App() {
 
   if (loadingUser) return <p>carregando...</p>;
 
-  console.log(user);
+  console.log("user ->",user);
   return (
     <main className="App">
       <AuthContextProvider value={{ user }}>
