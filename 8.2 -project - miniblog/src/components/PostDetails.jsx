@@ -11,7 +11,7 @@ const PostDetail = ({ post }) => {
         Criado por: {createdBy}
       </p>
       <div className="mb-3 flex">
-        {tags.map((tag) => (
+        {tags && tags.map((tag) => (
           <p key={tag} className="mr-2">
             <span className="font-bold">#</span>
             {tag}

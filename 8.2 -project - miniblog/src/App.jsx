@@ -13,6 +13,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useAuthentication } from "./hooks/useAuthentication";
 import "./App.css";
 import Search from "./pages/Search/Search";
+import Post from "./pages/SinglePost/Post";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -60,6 +61,7 @@ function App() {
                 element={user ? <Dashboard /> : <Navigate to="/login" />}
               />
               <Route path="/search" element={<Search />} />
+              <Route path="/posts/:id" element={<Post />} />
             </Routes>
           </div>
           <Footer />

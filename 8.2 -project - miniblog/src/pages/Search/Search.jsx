@@ -1,8 +1,8 @@
-import styles from "./Search.module.css";
 import { Link } from "react-router-dom";
-import PostDetails from '../../components/PostDetails'
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useQuery } from "../../hooks/useQuery";
+import PostDetails from "../../components/PostDetails";
+import styles from "./Search.module.css";
 
 const Search = () => {
   const query = useQuery();
@@ -20,7 +20,8 @@ const Search = () => {
             </Link>
           </>
         )}
-        {posts && posts.map((post) => <PostDetails key={post.id} post={post} />)}
+        {posts &&
+          posts.map((post) => <PostDetails key={post.id} post={post} />)}
       </div>
     </div>
   );
