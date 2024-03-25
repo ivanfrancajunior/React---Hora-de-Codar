@@ -14,6 +14,7 @@ import { useAuthentication } from "./hooks/useAuthentication";
 import "./App.css";
 import Search from "./pages/Search/Search";
 import Post from "./pages/SinglePost/Post";
+import EditPost from "./pages/EditPost/EditPost";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -29,7 +30,6 @@ function App() {
 
   if (loadingUser) return <p>carregando...</p>;
 
-  console.log("user ->",user);
   return (
     <main className="App">
       <AuthContextProvider value={{ user }}>
@@ -54,6 +54,10 @@ function App() {
               <Route
                 path="/posts/create"
                 element={user ? <CreatePost /> : <navigate to="/login" />}
+              />
+              <Route
+                path="/posts/edit/:id"
+                element={user ? <EditPost /> : <navigate to="/login" />}
               />
 
               <Route
