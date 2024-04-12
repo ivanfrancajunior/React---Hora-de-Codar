@@ -16,9 +16,9 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 const PORT = process.env.PORT || 3077;
 
-
-
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  
   console.log(`server running on port ${PORT} 🔥`);
+  
 });
 
