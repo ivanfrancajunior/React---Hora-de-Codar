@@ -4,29 +4,44 @@ const userCreateValidation = () => {
   return [
     body("name")
       .isString()
-      .withMessage("O nome é obrigatório.")
+      .withMessage("Name is required.")
       .isLength({ min: 3 })
-      .withMessage("O nome precisa ter no mínimo 3 caracteres."),
+      .withMessage("Name must be at least 3 characters."),
     body("email")
       .isString()
-      .withMessage("O e-mail é obrigatório.")
+      .withMessage("E-mail is required.")
       .isEmail()
-      .withMessage("Insira um e-mail válido"),
+      .withMessage("Enter a valid e-mail address."),
     body("password")
       .isString()
-      .withMessage("A senha é obrigatória.")
+      .withMessage("Password is required.")
       .isLength({ min: 5 })
-      .withMessage("A senha precisa de no mínimo 5 caracteres."),
+      .withMessage("The password needs at least 5 characters."),
     body("confirmPassword")
       .isString()
-      .withMessage("A confirmação de senha é obrigatória.")
+      .withMessage("Password confirmation is required.")
       .custom((value, { req }) => {
         if (value != req.body.password) {
-          throw new Error("As senhas não são iguais.");
+          throw new Error("The passwords fields are not the same.");
         }
         return true;
       }),
   ];
 };
 
-module.exports = { userCreateValidation };
+const loginValidation = () => {
+  return [
+    body("email")
+      .isString()
+      .withMessage("E-mail is required.")
+      .isEmail()
+      .withMessage("Enter a valid e-mail address."),
+      body("password")
+      .isString()
+      .withMessage("Password is required.")
+      .isLength({ min: 5 })
+      .withMessage("The password needs at least 5 characters."),
+  ];
+};
+
+module.exports = { userCreateValidation,loginValidation };
