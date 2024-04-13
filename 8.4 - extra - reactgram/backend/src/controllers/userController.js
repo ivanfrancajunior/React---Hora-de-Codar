@@ -1,11 +1,20 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const mongoose = require("mongoose");
 
 const jwtSecret = process.env.JWT_SECRET;
 
 const generateUserJwtToken = (id) => {
   return jwt.sign({ id }, jwtSecret, { expiresIn: "7d" });
+};
+
+const generateHashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+
+  const hashed_password = await bcrypt.hash(password, salt);
+
+  return hashed_password;
 };
 
 //register and signIn
@@ -20,9 +29,8 @@ const register = async (req, res) => {
 
     return;
   }
-  const salt = await bcrypt.genSalt(10);
 
-  const hashed_password = await bcrypt.hash(password, salt);
+  const hashed_password = await generateHashPassword(password);
 
   const new_user = await User.create({
     name,
@@ -75,8 +83,42 @@ const getCurrentUser = async (req, res) => {
   res.status(200).json(user);
 };
 
+const update = async (req, res) => {
+  const { name, password, bio } = req.body;
+
+  let profileImage = null;
+
+  if (req.file) {
+    profileImage = req.file.filename;
+  }
+  const current_user = req.user;
+
+  const user = await User.findById(current_user._id).select("-password");
+
+  if (name) {
+    user.name = name;
+  }
+
+  if (password) {
+    user.password = await generateHashPassword(password);
+  }
+
+  if (profileImage) {
+    user.profileImage = profileImage;
+  }
+
+  if (bio) {
+    user.bio = bio;
+  }
+
+  await user.save();
+
+  res.status(200).json(user);
+};
+
 module.exports = {
   register,
   login,
   getCurrentUser,
+  update,
 };
