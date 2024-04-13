@@ -2,6 +2,7 @@ const Photo = require("../models/Photo");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const fs = require("fs");
+
 const insertPhoto = async (req, res) => {
   const { title } = req.body;
 
@@ -81,11 +82,32 @@ const getAllPhotos = async (req, res) => {
 const getUserPhotos = async (req, res) => {
   const { id } = req.params;
 
-  const photos =await  Photo.find({ userId: id })
+  const photos = await Photo.find({ userId: id })
     .sort([["createdAt", -1]])
     .exec();
 
   return res.status(200).json(photos);
 };
 
-module.exports = { insertPhoto, deletePhoto, getAllPhotos,getUserPhotos };
+const getPhotoById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const current_photo = await Photo.findById(new mongoose.Types.ObjectId(id));
+
+    if (!current_photo) {
+      return res.status(404).json({ erros: ["Photo not found."] });
+    }
+    return res.status(200).json(current_photo);
+  } catch (error) {
+    return res.status(404).json({ erros: ["Photo not found."] });
+  }
+};
+
+module.exports = {
+  insertPhoto,
+  deletePhoto,
+  getAllPhotos,
+  getUserPhotos,
+  getPhotoById,
+};
