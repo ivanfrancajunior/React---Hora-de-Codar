@@ -145,6 +145,32 @@ const updatePhoto = async (req, res) => {
   }
 };
 
+const likePhoto = async (req, res) => {
+  const { id } = req.params;
+
+  const req_user = req.user;
+
+  const photo = await Photo.findById(id);
+
+  if (!photo) {
+    res.status(404).json({ errors: ["Photo not found"] });
+    return;
+  }
+
+  if (photo.likes.includes(req_user._id)) {
+    res.status(422).json({ errors: ["You already liked this photo."] });
+    return;
+  }
+
+  photo.likes.push(req_user._id);
+
+  await photo.save();
+
+  res.status(200).json({ photoId: id, userId: req_user._id, message: "Nice!" });
+};
+
+
+//TODO implement dislike fn
 module.exports = {
   insertPhoto,
   deletePhoto,
@@ -152,4 +178,5 @@ module.exports = {
   getUserPhotos,
   getPhotoById,
   updatePhoto,
+  likePhoto,
 };
