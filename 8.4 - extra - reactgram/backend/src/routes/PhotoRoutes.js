@@ -5,6 +5,7 @@ const { imageUpload } = require("../middlewares/users/imageUpload.js");
 const {
   insertPhoto,
   deletePhoto,
+  getAllPhotos,
 } = require("../controllers/photoController.js");
 const {
   photoInsertValidation,
@@ -21,5 +22,6 @@ router.post(
 );
 
 router.delete("/:id", authGuard, deletePhoto);
+router.get("/", authGuard, getAllPhotos);
 
 module.exports = router;

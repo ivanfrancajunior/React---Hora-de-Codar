@@ -51,7 +51,7 @@ const deletePhoto = async (req, res) => {
       if (err) {
         res.status(422).json({
           errors: [
-            "Ocorreu um erro ao tentar deletar os arquivos da foto, tente novamente mais tarde.",
+            "An error occurred while trying to delete the photo files, please try again later.",
           ],
         });
         return;
@@ -70,5 +70,11 @@ const deletePhoto = async (req, res) => {
       .json({ erros: ["A problem occurred. Please try again later."] });
   }
 };
+const getAllPhotos = async (req, res) => {
+  const photos = await Photo.find({})
+    .sort([["createdAt", -1]])
+    .exec();
 
-module.exports = { insertPhoto, deletePhoto };
+  return res.status(200).json(photos);
+};
+module.exports = { insertPhoto, deletePhoto, getAllPhotos };
