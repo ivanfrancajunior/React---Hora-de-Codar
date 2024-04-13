@@ -43,5 +43,16 @@ const loginValidation = () => {
       .withMessage("The password needs at least 5 characters."),
   ];
 };
-
-module.exports = { userCreateValidation,loginValidation };
+const userUpdateValidation = () => {
+  return [
+    body("name")
+      .optional()
+      .isLength({ min: 3 })
+      .withMessage("Name must be at least 3 characters."),
+      body("password")
+      .optional()
+      .isLength({ min: 5 })
+      .withMessage("The password needs at least 5 characters."),
+  ];
+};
+module.exports = { userCreateValidation,loginValidation,userUpdateValidation };
