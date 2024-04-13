@@ -2,6 +2,7 @@ const Photo = require("../models/Photo");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const fs = require("fs");
+const { log } = require("console");
 
 const insertPhoto = async (req, res) => {
   const { title } = req.body;
@@ -104,10 +105,51 @@ const getPhotoById = async (req, res) => {
   }
 };
 
+const updatePhoto = async (req, res) => {
+  const { id } = req.params;
+
+  const req_user = req.user;
+
+  const { title } = req.body;
+
+  try {
+    const current_photo = await Photo.findById(id);
+
+    console.log(current_photo);
+
+    if (!current_photo) {
+      res.status(404).json({ erros: ["Photo not found."] });
+      return;
+    }
+    console.log(req_user);
+    if (!current_photo.userId.equals(req_user._id)) {
+      res
+        .status(422)
+        .json({ erros: ["A problem occurred. Please try again later."] });
+      return;
+    }
+
+    if (title) {
+      current_photo.title = title;
+    }
+
+    await current_photo.save();
+
+    res.status(200).json({
+      current_photo,
+      message: "Photo was sucessfully updated. ",
+    });
+  } catch (error) {
+    res.status(422).json({ erros: ["Photo not found."] });
+    return;
+  }
+};
+
 module.exports = {
   insertPhoto,
   deletePhoto,
   getAllPhotos,
   getUserPhotos,
   getPhotoById,
+  updatePhoto,
 };
