@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const mongoose = require("mongoose");
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -16,8 +15,6 @@ const generateHashPassword = async (password) => {
 
   return hashed_password;
 };
-
-//register and signIn
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;

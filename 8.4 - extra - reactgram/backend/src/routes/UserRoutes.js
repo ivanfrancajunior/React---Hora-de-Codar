@@ -1,22 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
-const validate = require("../middlewares/handleValidations.js");
+const validate = require("../middlewares/user/handleValidations.js");
 const {
   userCreateValidation,
   loginValidation,
   userUpdateValidation,
-} = require("../middlewares/userValidations.js");
+} = require("../middlewares/user/userValidations.js");
 
-const { authGuard } = require("../middlewares/authGuard.js");
+const { authGuard } = require("../middlewares/user/authGuard.js");
 const {
   register,
   login,
   update,
   getCurrentUser,
-  getUserById
+  getUserById,
 } = require("../controllers/userController");
-const { imageUpload } = require("../middlewares/imageUpload.js");
+const { imageUpload } = require("../middlewares/user/imageUpload.js");
 
 router.get("/:id",getUserById );
 router.get("/profile", authGuard, getCurrentUser);
