@@ -116,9 +116,26 @@ const update = async (req, res) => {
   res.status(200).json(user);
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const has_user = await User.findById(id).select("-password");
+
+    if (!has_user) {
+      return res.status(404).json({ errors: ["User not found."] });
+    }
+
+    return res.status(200).json(has_user);
+  } catch (error) {
+    return res.status(404).json({ errors: ["User not found."] });
+  }
+};
+
 module.exports = {
   register,
   login,
   getCurrentUser,
   update,
+  getUserById,
 };
