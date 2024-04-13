@@ -13,7 +13,7 @@ const resolveImagePath = multer.diskStorage({
     }
     //more if needs...
 
-    cb(null, `uploads/${folder}/`);
+    cb(null, `src/uploads/${folder}/`);
   },
   filename: (req, file, cb) => {
     cb(null, uuid() + path.extname(file.originalname));
