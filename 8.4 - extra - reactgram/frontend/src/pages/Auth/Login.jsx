@@ -1,4 +1,4 @@
-import "./Auth.css";
+import './Auth.css';
 
 const Login = () => {
   return <div>Login</div>;
