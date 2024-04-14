@@ -10,13 +10,18 @@ const initialState = {
   loading: false,
 };
 
-const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
-  const data = await authService.register(user);
+export const register = createAsyncThunk(
+  'auth/register',
+  async (user, thunkAPI) => {
+    const data = await authService.register(user);
 
-  if (data.erros) return thunkAPI.rejectWithValue(data.errors[0]);
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
 
-  return data;
-});
+    return data;
+  },
+);
 
 export const authSlice = createSlice({
   name: 'auth',

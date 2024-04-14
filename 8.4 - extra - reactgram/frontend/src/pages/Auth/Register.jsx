@@ -1,20 +1,36 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, reset } from '../../slices/authSlice';
 import './Auth.css';
 
 const Register = () => {
+  const { loading, error } = useSelector((state) => state.auth);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    const user = {
+      name,
+      email,
+      password,
+      confirmPassword,
+    };
+
+    console.log(user);
+
+    dispatch(register(user));
   };
+
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch]);
+
   return (
     <div id="register">
       <h2>ReactGram</h2>
