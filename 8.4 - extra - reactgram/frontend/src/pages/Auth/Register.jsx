@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, reset } from '../../slices/authSlice';
-import Message from '../../components/Message';
+import { Message } from '../../components/Message';
 import './Auth.css';
 
 const Register = () => {
