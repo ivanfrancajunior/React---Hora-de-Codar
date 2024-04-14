@@ -1,20 +1,33 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './pages/Home/Home.jsx';
+import Login from './pages/Auth/Login.jsx';
+import Register from './pages/Auth/Register.jsx';
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
+import { useAuth } from './hooks/useAuth.js';
 const App = () => {
+  const { auth, isLoading } = useAuth();
+
+  if (isLoading) return <p>carregando...</p>;
+
   return (
     <>
       <BrowserRouter>
         <Navbar />
         <main className="container">
           <Routes>
-            <Route path={"/"} element={<Home />} />
-            <Route path={"/login"} element={<Login />} />
-            <Route path={"/register"} element={<Register />} />
+            <Route
+              path={'/'}
+              element={auth ? <Home /> : <Navigate to="/login" />}
+            />
+            <Route
+              path={'/login'}
+              element={!auth ? <Login /> : <Navigate to="/" />}
+            />
+            <Route
+              path={'/register'}
+              element={auth ? <Navigate to="/" /> : <Register />}
+            />
           </Routes>
         </main>
         <Footer />
