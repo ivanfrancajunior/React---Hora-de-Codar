@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, reset } from '../../slices/authSlice';
+import Message from '../../components/Message';
 import './Auth.css';
 
 const Register = () => {
@@ -12,7 +13,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = {
@@ -60,7 +61,13 @@ const Register = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <input type="submit" value={'Cadastrar'} />
+
+        <input
+          type="submit"
+          disabled={loading ? true : false}
+          value={loading ? 'Aguarde...' : 'Cadastrar'}
+        />
+        {error && <Message message={error} type={'error'} />}
       </form>
       <p>
         Já possui conta? <Link to={'/login'}>Clique aqui</Link>
