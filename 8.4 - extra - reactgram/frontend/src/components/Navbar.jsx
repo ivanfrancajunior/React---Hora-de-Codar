@@ -5,14 +5,24 @@ import {
   BsFillPersonFill,
   BsFillCameraFill,
 } from 'react-icons/bs';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useState } from 'react';
+import { logout, reset } from '../slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+
 const Navbar = () => {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+
+    navigate('/login');
+  };
   return (
     <nav id="nav">
       <Link to="/">ReactGram</Link>
@@ -42,7 +52,11 @@ const Navbar = () => {
                 <BsFillPersonFill />
               </NavLink>
             </li>
-            <li>sair</li>
+            <li>
+              <span role="button" onClick={handleLogout}>
+                Sair
+              </span>
+            </li>
           </>
         ) : (
           <>

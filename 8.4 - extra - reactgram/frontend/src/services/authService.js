@@ -17,8 +17,10 @@ const register = async (data) => {
   }
 
 };
-
-const authService = { register };
+const logout = () => {
+  localStorage.removeItem('user');
+};
+const authService = { register, logout };
 export default authService;
 
 //TODO: add toast nptification at v2
