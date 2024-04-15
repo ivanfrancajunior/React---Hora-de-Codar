@@ -27,11 +27,9 @@ const login = async (data) => {
     const res = await fetch(api_url + '/users/login', config)
       .then((res) => res.json())
       .catch((err) => err);
-    if (res) {
-      console.log(res);
-      localStorage.setItem('user', JSON.stringify('user'));
 
-       //TODO: validate if user has an id before set a user to localstorage
+      if (res._id) {
+      localStorage.setItem('user', JSON.stringify('user'));
     }
 
     return res;

@@ -1,5 +1,5 @@
 body {
-font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,43 +9,43 @@ font-family: 'Roboto', sans-serif;
 }
 
 .container {
-min-height: 70vh;
+    min-height: 70vh;
     padding: 1%;
 }
 
 a {
-color: #fafafa;
+    color: #fafafa;
     text-decoration: none;
 }
 
 .active {
-font-weight: bold;
+    font-weight: bold;
 }
 
 ul {
-list-style: none;
+    list-style: none;
 }
 
 form {
-display: flex;
+    display: flex;
     flex-direction: column;
 }
 
 label {
-display: flex;
+    display: flex;
     flex-direction: column;
     text-align: left;
 }
 
 label span {
-font-weight: bold;
+    font-weight: bold;
     margin-bottom: 0.5em;
     color: #aaa;
     font-size: 0.7em;
 }
 
 input {
-background-color: #3b3b3b;
+    background-color: #3b3b3b;
     color: #aaa;
     border: 1px solid #555;
     border-radius: 2px;
@@ -55,7 +55,7 @@ background-color: #3b3b3b;
 }
 
 input::placeholder {
-color: #aaa;
+    color: #aaa;
 }
 
 .btn,
@@ -77,7 +77,7 @@ input[type='submit'] {
 }
 
 input:disabled {
-cursor: not-allowed;
+    cursor: not-allowed;
     background-color: #000;
 }
 
@@ -87,9 +87,9 @@ input[type='submit']:hover {
 }
 
 .cancel-btn {
-background-color: #ccc;
+    background-color: #ccc;
 }
 
 .hide {
-display: none;
+    display: none;
 }

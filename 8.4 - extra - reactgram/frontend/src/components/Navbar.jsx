@@ -35,11 +35,9 @@ const Navbar = () => {
           <>
             {user && (
               <li>
-                <li>
-                  <NavLink to={`/user/${user._id}`}>
-                    <BsFillCameraFill />
-                  </NavLink>
-                </li>
+                <NavLink to={`/user/${user._id}`}>
+                  <BsFillCameraFill />
+                </NavLink>
               </li>
             )}
             <li>
