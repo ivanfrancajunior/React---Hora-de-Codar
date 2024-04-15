@@ -15,12 +15,31 @@ const register = async (data) => {
   } catch (error) {
     console.log(error);
   }
-
 };
 const logout = () => {
   localStorage.removeItem('user');
 };
-const authService = { register, logout };
+
+const login = async (data) => {
+  const config = requestConfig('POST', data);
+
+  try {
+    const res = await fetch(api_url + '/users/login', config)
+      .then((res) => res.json())
+      .catch((err) => err);
+    if (res) {
+      console.log(res);
+      localStorage.setItem('user', JSON.stringify('user'));
+
+       //TODO: validate if user has an id before set a user to localstorage
+    }
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const authService = { register, logout, login };
 export default authService;
 
 //TODO: add toast nptification at v2
