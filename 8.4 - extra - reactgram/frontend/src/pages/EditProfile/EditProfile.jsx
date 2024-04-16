@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
 import { uploads } from '../../utils/config';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserProfile } from '../../slices/userSlice.js';
+import {
+  getUserProfile,
+  resetMessage,
+  updateUserProfile,
+} from '../../slices/userSlice.js';
 import { Message } from '../../components/Message.jsx';
 import './EditProfile.css';
 
 const EditProfile = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+
+  const { user, loading, error, message } = useSelector((state) => state.user);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,20 +21,46 @@ const EditProfile = () => {
   const [bio, setBio] = useState('');
   const [previewImage, setPreviewImage] = useState('');
 
-  console.log(user);
   useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
+
   useEffect(() => {
     if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setBio(user.bio);
+      setName(user?.name || '');
+      setEmail(user?.email || '');
+      setBio(user?.bio || '');
     }
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Gather user data from states
+    const userData = {
+      name,
+    };
+
+    if (profileImage) {
+      userData.profileImage = profileImage;
+    }
+
+    if (bio) {
+      userData.bio = bio;
+    }
+
+    if (password) {
+      userData.password = password;
+    }
+
+    // build form data
+    const formData = new FormData();
+    Object.keys(userData).forEach((key) => formData.append(key, userData[key]));
+    await dispatch(updateUserProfile(formData));
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2500);
   };
   const handleFile = (e) => {
     const image = e.target.files[0];
@@ -37,6 +69,7 @@ const EditProfile = () => {
 
     setProfileImage(image);
   };
+  if (loading) return <p>Loading...</p>;
   return (
     <div id="edit-profile">
       <h2>Edite suas informações</h2>
@@ -86,7 +119,12 @@ const EditProfile = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <input type="submit" value={'Atualizar perfil'} />
+        <input
+          type="submit"
+          value={loading ? 'Aguarde...' : 'Atualizar perfil'}
+        />
+        {error && <Message message={message} type={'error'} />}
+        {message && <Message message={message} type={'success'} />}
       </form>
     </div>
   );

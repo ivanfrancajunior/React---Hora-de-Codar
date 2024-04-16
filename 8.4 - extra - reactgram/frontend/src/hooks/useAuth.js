@@ -8,7 +8,11 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    user ? setAuth(true) : setAuth(false);
+    if (user) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
 
     setIsLoading(false);
   }, [user]);
