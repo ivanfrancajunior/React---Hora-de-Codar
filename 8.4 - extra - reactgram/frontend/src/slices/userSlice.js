@@ -18,15 +18,17 @@ export const getUserProfile = createAsyncThunk(
   },
 );
 
-export const updatUserProfile = createAsyncThunk(
+export const updateUserProfile = createAsyncThunk(
   'user/update',
   async (user, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token;
+
     const data = await userService.updateUserProfile(user, token);
 
     if (data.errors) {
       return thunkAPI.rejectWithValue(data.errors[0]);
     }
+    console.log(data);
 
     return data;
   },
@@ -52,21 +54,21 @@ export const userSlice = createSlice({
         state.error = null;
         state.user = action.payload;
       })
-      .addCase(updatUserProfile.pending, (state) => {
+      .addCase(updateUserProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(updatUserProfile.fulfilled, (state, action) => {
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
         state.error = null;
         state.user = action.payload;
-        state.message = 'updated successfully';
+        state.message = 'User updated successfully!';
       })
-      .addCase(updatUserProfile.rejected, (state, action) => {
+      .addCase(updateUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.user = null;
+        state.user = {};
       });
   },
 });
