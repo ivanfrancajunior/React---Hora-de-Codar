@@ -7,6 +7,7 @@ import Footer from './components/Footer.jsx';
 import { useAuth } from './hooks/useAuth.js';
 import EditProfile from './pages/EditProfile/EditProfile.jsx';
 import Profile from './pages/Profile/Profile.jsx';
+import Photo from './pages/Photo/Photo.jsx';
 const App = () => {
   const { auth, isLoading } = useAuth();
 
@@ -29,6 +30,10 @@ const App = () => {
             <Route
               path={'/users/:id'}
               element={auth ? <Profile /> : <Navigate to="/login" />}
+            />
+            <Route
+              path={'/photos/:id'}
+              element={auth ? <Photo /> : <Navigate to="/login" />}
             />
             <Route
               path={'/login'}
