@@ -11,30 +11,55 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
   const { user: auth_user } = useSelector((state) => state.auth);
+    const newPhotoForm = useRef();
+    const editFotoForm = useRef();
+    useEffect(() => {
+      dispatch(getUserDetails(id));
+    }, [dispatch, id]);
 
-  useEffect(() => {
-    dispatch(getUserDetails(id));
-  }, [dispatch, id]);
-  if (loading) return <p>Loading...</p>;
-  return (
-    <div id="profile">
-      {!loading && (
-        <div className="profile-header">
-          {user.profileImage && (
-            <img
-              src={`${uploads}/users/${user.profileImage}`}
-              alt={user.name}
-              className="profile-image"
-            />
-          )}
-          <div className="profile-description">
-            <h2>{user.name}</h2>
-            <p>{user.bio}</p>
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log('works!');
+    };
+
+    if (loading) return <p>Loading...</p>;
+    return (
+      <div id="profile">
+        {!loading && (
+          <div className="profile-header">
+            {user.profileImage && (
+              <img
+                src={`${uploads}/users/${user.profileImage}`}
+                alt={user.name}
+                className="profile-image"
+              />
+            )}
+            <div className="profile-description">
+              <h2>{user.name}</h2>
+              <p>{user.bio}</p>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        )}
+        {id === auth_user._id && (
+          <>
+            <div className="new_photo" ref={newPhotoForm}>
+              <h3>Compartilhe algum momento seu!</h3>
+              <form onSubmit={handleSubmit}>
+                <label>
+                  <span>Título da foto</span>
+                  <input type="text" placeholder="Insira um título" />
+                </label>
+                <label>
+                  <span>Imagem</span>
+                  <input type="file" />
+                </label>
+                <input type="submit" value="Postar" />
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+    );
 };
 
 export default Profile;
