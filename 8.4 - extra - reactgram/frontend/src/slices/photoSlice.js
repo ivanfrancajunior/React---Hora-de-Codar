@@ -10,7 +10,7 @@ const initialState = {
   message: null,
 };
 
-const publishPhoto = createAsyncThunk(
+export const publishPhoto = createAsyncThunk(
   'photo/publish',
   async (photo, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token;
@@ -24,7 +24,7 @@ const publishPhoto = createAsyncThunk(
   },
 );
 
-export const photoSlice = createSlice({
+const photoSlice = createSlice({
   name: 'photo',
   initialState,
   reducers: {

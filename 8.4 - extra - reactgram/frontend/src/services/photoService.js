@@ -1,7 +1,7 @@
 import { api_url, requestConfig } from '../utils/config';
 
 
-const publishPhoto = async (data, token) => {
+export const publishPhoto = async (data, token) => {
   const config = requestConfig('POST', data, token, true);
 
   try {
