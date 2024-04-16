@@ -89,16 +89,22 @@ const EditProfile = () => {
         />
       )}
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input type="email" disabled placeholder="E-mail" value={email} />
+        <label>
+          <span>Nome</span>
+          <input
+            type="text"
+            placeholder="Nome"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label>
+          <span>E-mail</span>
+          <input type="email" disabled placeholder="E-mail" value={email} />
+        </label>
 
         <label>
-          <span>Imagem de perfil</span>
+          <span>Nova imagem de perfil</span>
           <input type="file" onChange={handleFile} />
         </label>
         <label>
