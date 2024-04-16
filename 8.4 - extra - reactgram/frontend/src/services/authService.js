@@ -29,7 +29,7 @@ const login = async (data) => {
       .catch((err) => err);
 
       if (res._id) {
-      localStorage.setItem('user', JSON.stringify('user'));
+      localStorage.setItem('user', JSON.stringify(res));
     }
 
     return res;
