@@ -8,6 +8,7 @@ import {
   publishPhoto,
   resetMessage,
   getUserPhotos,
+  deleteUserPhoto,
 } from '../../slices/photoSlice';
 import { Message } from '../../components/Message.jsx';
 import './Profile.css';
@@ -58,7 +59,16 @@ const Profile = () => {
     setImage(current_image);
   };
 
+  const handleDelete = async (id) => {
+    console.log(id);
+    dispatch(deleteUserPhoto(id));
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2500);
+  };
   if (loading) return <p>Loading...</p>;
+
   return (
     <div id="profile">
       {!loading && (
@@ -102,7 +112,7 @@ const Profile = () => {
             </form>
             {error_photo && (
               <Message
-                message={message_photo}
+                message={error_photo}
                 type={error_photo ? 'error' : 'success'}
               />
             )}
@@ -134,7 +144,7 @@ const Profile = () => {
                       <BsFillEyeFill />
                     </Link>
                     <BsPencilFill />
-                    <BsXLg />
+                    <BsXLg onClick={() => handleDelete(photo._id)} />
                   </div>
                 ) : (
                   <>
