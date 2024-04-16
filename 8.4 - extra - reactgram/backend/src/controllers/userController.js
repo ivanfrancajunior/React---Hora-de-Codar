@@ -18,17 +18,15 @@ const generateHashPassword = async (password) => {
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
-  const already_exists = await User.findOne({ email });
-  if (already_exists) {
+  const user = await User.findOne({ email });
+  if (user) {
     res
       .status(422)
-      .json({ erros: ["This current e-mail address already exists."] });
+      .json({ errors: ["This current e-mail address already exists."] });
 
     return;
   }
-
   const hashed_password = await generateHashPassword(password);
-
   const new_user = await User.create({
     name,
     email,
@@ -38,7 +36,7 @@ const register = async (req, res) => {
   if (!new_user) {
     res
       .status(422)
-      .json({ erros: ["This current e-mail address already exists."] });
+      .json({ errors: ["This current e-mail address already exists."] });
 
     return;
   }
@@ -50,23 +48,18 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   const has_user = await User.findOne({ email });
-
-  console.log("validei usuário");
 
   if (!has_user) {
     res.status(404).json({ errors: ["User not found."] });
     return;
   }
-
   const password_match = await bcrypt.compare(password, has_user.password);
 
   if (!password_match) {
     res.status(422).json({ errors: ["Wrong password"] });
     return;
   }
-
   res.status(201).json({
     _id: has_user._id,
     profileImage: has_user.profileImage,
@@ -88,41 +81,42 @@ const update = async (req, res) => {
   if (req.file) {
     profileImage = req.file.filename;
   }
-  const current_user = req.user;
+  try {
+    const current_user = req.user;
 
-  const user = await User.findById(current_user._id).select("-password");
+    const user = await User.findById(current_user._id).select("-password");
 
-  if (name) {
-    user.name = name;
+    if (name) {
+      user.name = name;
+    }
+
+    if (password) {
+      user.password = await generateHashPassword(password);
+    }
+
+    if (profileImage) {
+      user.profileImage = profileImage;
+    }
+
+    if (bio) {
+      user.bio = bio;
+    }
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    return res.status(404).json({ errors: ["User not found."] });
   }
-
-  if (password) {
-    user.password = await generateHashPassword(password);
-  }
-
-  if (profileImage) {
-    user.profileImage = profileImage;
-  }
-
-  if (bio) {
-    user.bio = bio;
-  }
-
-  await user.save();
-
-  res.status(200).json(user);
 };
 
 const getUserById = async (req, res) => {
   const { id } = req.params;
-
   try {
     const has_user = await User.findById(id).select("-password");
-
     if (!has_user) {
       return res.status(404).json({ errors: ["User not found."] });
     }
-
     return res.status(200).json(has_user);
   } catch (error) {
     return res.status(404).json({ errors: ["User not found."] });

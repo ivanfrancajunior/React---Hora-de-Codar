@@ -1,5 +1,6 @@
-const User = require("../../models/User");
+const User = require("../../models/User.js");
 const jwt = require("jsonwebtoken");
+
 const jwt_secret = process.env.JWT_SECRET;
 
 const authGuard = async (req, res, next) => {
@@ -11,9 +12,7 @@ const authGuard = async (req, res, next) => {
 
   try {
     const is_valid = jwt.verify(token, jwt_secret);
-
     req.user = await User.findById(is_valid.id).select("-password");
-
     next();
   } catch (error) {
     res.status(401).json({ errors: ["Invalid token."] });
