@@ -1,6 +1,5 @@
 import { api_url, requestConfig } from '../utils/config';
 
-
 const publishPhoto = async (data, token) => {
   const config = requestConfig('POST', data, token, true);
 
@@ -83,6 +82,17 @@ const likePhoto = async (id, token) => {
   }
 };
 
+const commentPhoto = async (data, id, token) => {
+  const config = requestConfig('PUT', data, token);
+  try {
+    const res = await fetch(`${api_url}/photos/comment/${id}`, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const photoService = {
   publishPhoto,
   getUserPhotos,
