@@ -67,6 +67,18 @@ export const updateUserPhoto = createAsyncThunk(
   },
 );
 
+export const getPhotoById = createAsyncThunk(
+  'photo/get_photo_by_id',
+  async (id, thunkAPI) => {
+    const data = await photoService.getPhotoById(id);
+
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+    return data;
+  },
+);
+
 const photoSlice = createSlice({
   name: 'photo',
   initialState,
@@ -145,6 +157,21 @@ const photoSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(updateUserPhoto.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.photo = {};
+      })
+      .addCase(getPhotoById.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getPhotoById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.photo = action.payload;
+      })
+      .addCase(getPhotoById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.photo = {};
