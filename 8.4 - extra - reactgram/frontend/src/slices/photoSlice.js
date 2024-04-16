@@ -136,9 +136,9 @@ const photoSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.photo.map((photo) => {
-          if (photo.id === action.payload.photo._id) {
-            return (photo.title = action.payload.title);
+        state.photos.map((photo) => {
+          if (photo._id === action.payload.photo._id) {
+            return (photo.title = action.payload.photo.title);
           }
           return photo;
         });

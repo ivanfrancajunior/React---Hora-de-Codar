@@ -9,6 +9,7 @@ import {
   resetMessage,
   getUserPhotos,
   deleteUserPhoto,
+  updateUserPhoto,
 } from '../../slices/photoSlice';
 import { Message } from '../../components/Message.jsx';
 import './Profile.css';
@@ -23,12 +24,17 @@ const Profile = () => {
     message: message_photo,
     error: error_photo,
   } = useSelector((state) => state.photo);
+
   const { user: auth_user } = useSelector((state) => state.auth);
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
+  const [editId, setEditId] = useState('');
+  const [editImage, setEditImage] = useState('');
+  const [editTitle, setEditTitle] = useState('');
 
   const newPhotoForm = useRef();
-  //   const editFotoForm = useRef();
+  const editPhotoForm = useRef();
+
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserPhotos(id));
@@ -58,7 +64,6 @@ const Profile = () => {
     const current_image = e.target.files[0];
     setImage(current_image);
   };
-
   const handleDelete = async (id) => {
     console.log(id);
     dispatch(deleteUserPhoto(id));
@@ -67,6 +72,34 @@ const Profile = () => {
       dispatch(resetMessage());
     }, 2500);
   };
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const photoData = {
+      title: editTitle,
+      id: editId,
+    };
+
+    dispatch(updateUserPhoto(photoData));
+
+    dispatch(resetMessage());
+  };
+  function hideOrShowForms() {
+    newPhotoForm.current.classList.toggle('hide');
+    editPhotoForm.current.classList.toggle('hide');
+  }
+  const handleEdit = (photo) => {
+    if (editPhotoForm.current.classList.contains('hide')) {
+      hideOrShowForms();
+    }
+    setEditId(photo._id);
+    setEditTitle(photo.title);
+    setEditImage(photo.image);
+  };
+  const handleCancelEdit = () => {
+    hideOrShowForms();
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -123,6 +156,37 @@ const Profile = () => {
               />
             )}
           </div>
+          <div className="edit-photo hide" ref={editPhotoForm}>
+            <p>Editando imagem</p>
+            {editImage && (
+              <>
+                <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+              </>
+            )}
+            <form onSubmit={handleUpdate}>
+              <input
+                type="text"
+                onChange={(e) => setEditTitle(e.target.value)}
+                value={editTitle || ''}
+              />
+              <input type="submit" value="Atualizar" />
+              <button className="cancel-btn" onClick={handleCancelEdit}>
+                Cancelar edição
+              </button>
+              {error_photo && (
+                <Message
+                  message={error_photo}
+                  type={error_photo ? 'error' : 'success'}
+                />
+              )}
+              {message_photo && (
+                <Message
+                  message={message_photo}
+                  type={error_photo ? 'error' : 'success'}
+                />
+              )}
+            </form>
+          </div>
         </>
       )}
       <div className="user-photos">
@@ -140,10 +204,10 @@ const Profile = () => {
                 )}
                 {id === auth_user._id ? (
                   <div className="actions">
-                    <Link>
+                    <Link to={`/photos/${photo._id}`}>
                       <BsFillEyeFill />
                     </Link>
-                    <BsPencilFill />
+                    <BsPencilFill onClick={() => handleEdit(photo)} />
                     <BsXLg onClick={() => handleDelete(photo._id)} />
                   </div>
                 ) : (
@@ -163,3 +227,4 @@ const Profile = () => {
 };
 
 export default Profile;
+//TODO: put the edit menu and the action on a hidden div with a hover effect in v2
