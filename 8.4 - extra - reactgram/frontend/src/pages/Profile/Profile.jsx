@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { uploads } from '../../utils/config';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { BsFillEyeFill, BsPencilFill, BsXLg } from 'react-icons/bs';
+import { BsFillEyeFill, BsPencilFill, BsXLg } from 'react-icons/bs';
 import { getUserDetails } from '../../slices/userSlice';
-import { publishPhoto, resetMessage } from '../../slices/photoSlice';
+import {
+  publishPhoto,
+  resetMessage,
+  getUserPhotos,
+} from '../../slices/photoSlice';
 import { Message } from '../../components/Message.jsx';
 import './Profile.css';
 
@@ -13,6 +17,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
   const {
+    photos,
     loading: loading_photo,
     message: message_photo,
     error: error_photo,
@@ -25,6 +30,7 @@ const Profile = () => {
   //   const editFotoForm = useRef();
   useEffect(() => {
     dispatch(getUserDetails(id));
+    dispatch(getUserPhotos(id));
   }, [dispatch, id]);
 
   const handleSubmit = async (e) => {
@@ -93,22 +99,55 @@ const Profile = () => {
                 value={loading_photo ? 'Agarde...' : 'Postar'}
                 disabled={loading_photo}
               />
-              {error_photo && (
-                <Message
-                  message={message_photo}
-                  type={error_photo ? 'error' : 'success'}
-                />
-              )}
-              {message_photo && (
-                <Message
-                  message={message_photo}
-                  type={error_photo ? 'error' : 'success'}
-                />
-              )}
             </form>
+            {error_photo && (
+              <Message
+                message={message_photo}
+                type={error_photo ? 'error' : 'success'}
+              />
+            )}
+            {message_photo && (
+              <Message
+                message={message_photo}
+                type={error_photo ? 'error' : 'success'}
+              />
+            )}
           </div>
         </>
       )}
+      <div className="user-photos">
+        <h2>Fotos publicads:</h2>
+        <div className="photos-container">
+          {photos &&
+            photos.map((photo) => (
+              <div className="photo" key={photo._id}>
+                <h3>{photo.title}</h3>
+                {photo.image && (
+                  <img
+                    src={`${uploads}/photos/${photo.image}`}
+                    alt={photo.title}
+                  />
+                )}
+                {id === auth_user._id ? (
+                  <div className="actions">
+                    <Link>
+                      <BsFillEyeFill />
+                    </Link>
+                    <BsPencilFill />
+                    <BsXLg />
+                  </div>
+                ) : (
+                  <>
+                    <link to={`${uploads}/photos/${photo.image}`}>Ver</link>
+                  </>
+                )}
+              </div>
+            ))}
+          {photos && photos.length === 0 && (
+            <p>Nenhuma publicação encontrada.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -72,7 +72,7 @@ const photoSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.photo = action.payload;
+        state.photos = action.payload;
       })
       .addCase(getUserPhotos.rejected, (state, action) => {
         state.loading = false;
