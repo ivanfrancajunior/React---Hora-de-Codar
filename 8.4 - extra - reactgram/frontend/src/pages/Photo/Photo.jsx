@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getPhotoById } from '../../slices/photoSlice';
 import { Message } from '../../components/Message';
 import SinglePhoto from '../../components/SinglePhoto';
+import LikeContainer from '../../components/LikeContainer';
 import './Photo.css';
 const Photo = () => {
   const { id } = useParams();
@@ -22,6 +23,13 @@ const Photo = () => {
   return (
     <div id="photo">
       <SinglePhoto photo={photo} />
+      <LikeContainer
+        handleLike={() => {
+          console.log('works!');
+        }}
+        photo={photo}
+        user={user}
+      />
     </div>
   );
 };
