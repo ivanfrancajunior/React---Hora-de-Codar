@@ -15,8 +15,8 @@ const publishPhoto = async (data, token) => {
   }
 };
 
-const getUserPhotos = async (id) => {
-  const config = requestConfig('GET', id);
+const getUserPhotos = async (id, token) => {
+  const config = requestConfig('GET', null, token);
 
   try {
     const res = await fetch(`${api_url}/photos/user/${id}`, config)
