@@ -10,13 +10,49 @@ const initialState = {
   message: null,
 };
 
+const publishPhoto = createAsyncThunk(
+  'photo/publish',
+  async (photo, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await photoService.publishPhoto(photo, token);
+
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+    return data;
+  },
+);
+
 export const photoSlice = createSlice({
   name: 'photo',
   initialState,
-  resetMessage: (state) => {
-    state.message = null;
+  reducers: {
+    resetMessage: (state) => {
+      state.message = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(publishPhoto.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(publishPhoto.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.photo = action.payload;
+        state.photos.unshift(state.photo);
+        state.message = 'Photo published successfully';
+      })
+      .addCase(publishPhoto.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.photo = {};
+      });
   },
 });
 
-const { resetMessage } = photoSlice.actions;
+export const { resetMessage } = photoSlice.actions;
 export default photoSlice.reducer;
