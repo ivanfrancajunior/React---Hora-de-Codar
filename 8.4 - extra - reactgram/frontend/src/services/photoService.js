@@ -93,6 +93,7 @@ const commentPhoto = async (data, id, token) => {
     console.log(error);
   }
 };
+
 const photoService = {
   publishPhoto,
   getUserPhotos,
@@ -100,6 +101,7 @@ const photoService = {
   updatePhoto,
   getPhotoById,
   likePhoto,
+  commentPhoto,
 };
 
 export default photoService;
