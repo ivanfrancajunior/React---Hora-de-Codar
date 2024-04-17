@@ -2,7 +2,7 @@ const Photo = require("../models/Photo");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const fs = require("fs");
-const { log } = require("console");
+const { v4: uuid } = require("uuid");
 
 const insertPhoto = async (req, res) => {
   const { title } = req.body;
@@ -186,6 +186,7 @@ const commentPhoto = async (req, res) => {
 
   const userComment = {
     comment,
+    commentId: uuid(),
     userName: user.name,
     userImage: user.profileImage,
     userId: user._id,

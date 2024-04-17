@@ -32,6 +32,7 @@ const photoUpdateValidation = () => {
 const commentValidation = () => {
   return [
     body("comment")
+      .notEmpty()
       .isString()
       .withMessage("Comment is required.")
       .isLength({ min: 2 })
