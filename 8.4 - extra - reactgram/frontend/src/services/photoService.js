@@ -94,8 +94,8 @@ const commentPhoto = async (data, id, token) => {
   }
 };
 
-const getAllPhotos = async () => {
-  const config = requestConfig('GET');
+const getAllPhotos = async (token) => {
+  const config = requestConfig('GET', null, token);
 
   try {
     const res = fetch(`${api_url}/photos`, config)
