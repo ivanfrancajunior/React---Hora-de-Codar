@@ -8,6 +8,7 @@ import { useAuth } from './hooks/useAuth.js';
 import EditProfile from './pages/EditProfile/EditProfile.jsx';
 import Profile from './pages/Profile/Profile.jsx';
 import Photo from './pages/Photo/Photo.jsx';
+import Search from './pages/Search/Search.jsx';
 const App = () => {
   const { auth, isLoading } = useAuth();
 
@@ -30,6 +31,10 @@ const App = () => {
             <Route
               path={'/users/:id'}
               element={auth ? <Profile /> : <Navigate to="/login" />}
+            />
+            <Route
+              path={'/search'}
+              element={auth ? <Search /> : <Navigate to="/login" />}
             />
             <Route
               path={'/photos/:id'}
