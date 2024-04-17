@@ -6,13 +6,13 @@ import { BsFillEyeFill, BsPencilFill, BsXLg } from 'react-icons/bs';
 import { getUserDetails } from '../../slices/userSlice';
 import {
   publishPhoto,
-  resetMessage,
   getUserPhotos,
   deleteUserPhoto,
   updateUserPhoto,
 } from '../../slices/photoSlice';
 import { Message } from '../../components/Message.jsx';
 import './Profile.css';
+import { useResetComponentMessage } from '../../hooks/useResetMessage.js';
 
 const Profile = () => {
   const { id } = useParams();
@@ -34,6 +34,7 @@ const Profile = () => {
 
   const newPhotoForm = useRef();
   const editPhotoForm = useRef();
+  const resetMessage = useResetComponentMessage(dispatch);
 
   useEffect(() => {
     dispatch(getUserDetails(id));
@@ -55,11 +56,8 @@ const Profile = () => {
     await dispatch(publishPhoto(formData));
     setTitle('');
 
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2500);
+    resetMessage();
   };
-
   const handleFile = async (e) => {
     const current_image = e.target.files[0];
     setImage(current_image);
@@ -68,9 +66,7 @@ const Profile = () => {
     console.log(id);
     dispatch(deleteUserPhoto(id));
 
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2500);
+    resetMessage();
   };
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -96,7 +92,8 @@ const Profile = () => {
     setEditTitle(photo.title);
     setEditImage(photo.image);
   };
-  const handleCancelEdit = () => {
+  const handleCancelEdit = (e) => {
+    e.preventDefault();
     hideOrShowForms();
   };
 
@@ -173,20 +170,12 @@ const Profile = () => {
               <button className="cancel-btn" onClick={handleCancelEdit}>
                 Cancelar edição
               </button>
-              {error_photo && (
-                <Message
-                  message={error_photo}
-                  type={error_photo ? 'error' : 'success'}
-                />
-              )}
-              {message_photo && (
-                <Message
-                  message={message_photo}
-                  type={error_photo ? 'error' : 'success'}
-                />
-              )}
             </form>
           </div>
+          {error_photo && <Message message={error_photo} type={'error'} />}
+          {message_photo && (
+            <Message message={message_photo} type={'success'} />
+          )}
         </>
       )}
       <div className="user-photos">
