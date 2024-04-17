@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import photoService from '../services/photoService';
 
+
 const initialState = {
   photos: [],
   photo: {},
@@ -232,7 +233,7 @@ const photoSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.photo.comments.push(action.payload);
+        state.photo.comments.push(action.payload.comment);
         state.message = action.payload.message;
       })
       .addCase(commentPhoto.rejected, (state, action) => {
